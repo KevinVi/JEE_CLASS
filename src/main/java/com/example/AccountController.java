@@ -38,7 +38,7 @@ public class AccountController {
 
     @RequestMapping(method = POST, value = "/accounts")
     @ResponseStatus(CREATED)
-    public void insertAccount(@RequestBody Account account) {
-        accountService.insertAccount(account);
+    public Account insertAccount(@RequestBody Account account) {
+       return accountService.insertAccount(account);
     }
 }

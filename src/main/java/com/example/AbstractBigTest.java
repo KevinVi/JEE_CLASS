@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("integration")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DemoApplication.class)
-@WebIntegrationTest("server.port=9898")
+@WebIntegrationTest("server.port=8989")
 public abstract class AbstractBigTest {
 
     private static final Logger LOGGER = Logger.getLogger(AbstractBigTest.class);
@@ -32,6 +32,7 @@ public abstract class AbstractBigTest {
         try{
             return objectMapper.writeValueAsString(entity);
         } catch (JsonProcessingException e) {
+            LOGGER.error("",e);
             return null;
         }
     }

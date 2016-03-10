@@ -42,7 +42,8 @@ public class AccountControllerEtoETest extends AbstractBigTest {
         Account accountToCreate = Account.builder().balance(balance).build();
         given()
                 .contentType(JSON)
-                .body(accountToCreate)
+                //.body(accountToCreate)
+                .body(toJson(accountToCreate))
             .when()
                 .post("/accounts")
                 .then()
