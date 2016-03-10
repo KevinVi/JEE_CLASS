@@ -10,6 +10,11 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
+
 public class Account {
     private Integer balance;
+
+    public Account(int b) {
+        this.balance = b;
+    }
 }

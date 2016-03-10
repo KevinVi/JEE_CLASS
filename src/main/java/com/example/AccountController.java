@@ -1,15 +1,16 @@
 package com.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * Created by kevin on 09/03/2016.
@@ -25,7 +26,7 @@ public class AccountController {
     }
 
     @RequestMapping(method = GET, value = "/accounts")
-    public List<Account> getAccounts(){
+    public List<Account> getAccounts() {
         // return asList(30,20,50).stream().map(Account::new).collect(toList());
         /*return asList(
                 Account.builder().balance(10).build(),
@@ -33,5 +34,11 @@ public class AccountController {
                 Account.builder().balance(50).build()
         );*/
         return accountService.findAccounts();
+    }
+
+    @RequestMapping(method = POST, value = "/accounts")
+    @ResponseStatus(CREATED)
+    public void insertAccount(@RequestBody Account account) {
+        accountService.insertAccount(account);
     }
 }

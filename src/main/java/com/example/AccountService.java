@@ -57,4 +57,9 @@ public class AccountService {
 
         return accounts;
     }
+
+    public Account insertAccount(Account account){
+        accounts.add(account);
+        return account;
+    }
 }
