@@ -1,22 +1,9 @@
 package com.example;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.mapper.ObjectMapper;
-import groovy.json.JsonException;
-import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
+import org.springframework.test.annotation.DirtiesContext;
 
 import static com.jayway.restassured.RestAssured.given;
-import static com.jayway.restassured.RestAssured.when;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -36,7 +23,8 @@ public class AccountControllerEtoETest extends AbstractBigTest {
     }
 
     @Test
-    public void add_account(){
+    @DirtiesContext
+    public void add_account() {
 
         final int balance = 60;
         Account accountToCreate = Account.builder().balance(balance).build();
@@ -48,8 +36,23 @@ public class AccountControllerEtoETest extends AbstractBigTest {
                 .post("/accounts")
                 .then()
                 .statusCode(201)
-                .body("balance",is(balance));
+                .body("balance", is(balance));
 
+    }
+
+    @Test
+    @DirtiesContext
+    public void validation_balance() {
+        final int balance = 0;
+        Account accountToCreate = Account.builder().balance(balance).build();
+        given()
+                .contentType(JSON)
+                //.body(accountToCreate)
+                .body(toJson(accountToCreate))
+            .when()
+                .post("/accounts")
+                .then()
+                .body("balance", is(balance));
 
     }
 }

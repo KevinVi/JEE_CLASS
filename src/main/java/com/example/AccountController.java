@@ -2,8 +2,10 @@ package com.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -39,6 +41,13 @@ public class AccountController {
     @RequestMapping(method = POST, value = "/accounts")
     @ResponseStatus(CREATED)
     public Account insertAccount(@RequestBody Account account) {
+        if(account.getBalance() == 0)
+            throw new ValidationExceptionMine();
        return accountService.insertAccount(account);
     }
+/*
+    @ExceptionHandler(ValidationExceptionMine.class)
+    public ResponseEntity validationException(ValidationExceptionMine validationExceptionMine){
+
+    }*/
 }

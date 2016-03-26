@@ -11,8 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.sql.DataSource;
 
 /**
  * Created by kevin on 09/03/2016.
@@ -23,6 +28,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @WebIntegrationTest("server.port=8989")
 public abstract class AbstractBigTest {
 
+
+    @Configuration
+    static class DatasourceConfiguration{
+        /*@Bean
+        @Profile("dev")
+        public DataSource devDatasource(){
+            return //H2
+        }
+        @Bean
+        @Profile("integration")
+        public DataSource devDatasource(){
+            return //Mysql
+        }*/
+
+    }
     private static final Logger LOGGER = Logger.getLogger(AbstractBigTest.class);
 
     @Autowired
@@ -38,7 +58,7 @@ public abstract class AbstractBigTest {
     }
 
 
-    @Value("${test.server.port}")
+    @Value("${server.port:9393}")
     private Integer port;
     @Before
     public void setupRestassured() {
